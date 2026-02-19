@@ -1,0 +1,200 @@
+2026-02-19 12:19:20,840 - INFO - ============================================================
+2026-02-19 12:19:20,841 - INFO - STARTING SCRIPT - 20260219_121920
+2026-02-19 12:19:20,841 - INFO - ============================================================
+2026-02-19 12:19:22,048 - INFO - Navigating to: https://www.treasurer.ca.gov/calsavers/reports/2022/index.asp
+2026-02-19 12:19:27,063 - INFO - Latest year found: 2026 -> /calsavers/reports/2026/index.asp
+2026-02-19 12:19:27,063 - INFO - Navigating to year index: https://www.treasurer.ca.gov/calsavers/reports/2026/index.asp
+2026-02-19 12:19:28,949 - INFO - Found 1 Participation Summary Report link(s)
+2026-02-19 12:19:28,956 - INFO -   Found report: Participation Summary Report for the Month Ending January 31, 2026 -> /calsavers/reports/2026/january_2026.pdf
+2026-02-19 12:19:28,956 - INFO - Latest report selected: Participation Summary Report for the Month Ending January 31, 2026
+2026-02-19 12:19:28,956 - INFO - URL: https://www.treasurer.ca.gov/calsavers/reports/2026/january_2026.pdf
+2026-02-19 12:19:28,957 - INFO - Downloading PDF via requests: https://www.treasurer.ca.gov/calsavers/reports/2026/january_2026.pdf
+2026-02-19 12:19:28,957 - INFO - Saving to: downloads\participation_summary_january_2026.pdf
+2026-02-19 12:19:46,773 - INFO - Download complete. File size: 2,200,423 bytes
+2026-02-19 12:19:46,778 - INFO - ============================================================
+2026-02-19 12:19:46,778 - INFO - SCRAPER COMPLETED — starting mapper...
+2026-02-19 12:19:46,778 - INFO - Report : Participation Summary Report for the Month Ending January 31, 2026
+2026-02-19 12:19:46,778 - INFO - PDF    : downloads\participation_summary_january_2026.pdf
+2026-02-19 12:19:46,778 - INFO - ============================================================
+2026-02-19 12:19:46,779 - INFO - Report month detected from filename: 2026-01 ('participation_summary_january_2026.pdf')
+2026-02-19 12:19:46,779 - INFO - ============================================================
+2026-02-19 12:19:46,779 - INFO - MAPPER STARTING  —  report month: 2026-01
+2026-02-19 12:19:46,779 - INFO - PDF: downloads\participation_summary_january_2026.pdf
+2026-02-19 12:19:46,779 - INFO - ============================================================
+2026-02-19 12:19:46,780 - INFO - File verified: config.json
+2026-02-19 12:19:46,780 - INFO - Step 1: Parsing current month PDF...
+2026-02-19 12:19:46,781 - INFO - File verified: PDF file
+2026-02-19 12:19:46,817 - INFO - PDF 'participation_summary_january_2026.pdf': page size 1008 x 612
+2026-02-19 12:19:47,114 - INFO - Section 'employer_registration': region='left', text length=1097 chars
+2026-02-19 12:19:47,114 - INFO -   [text line  0] CalSavers Retirement S
+2026-02-19 12:19:47,115 - INFO -   [text line  1] Participation & Funding Sna
+2026-02-19 12:19:47,115 - INFO -   [text line  2] Employer Registration Status Changes
+2026-02-19 12:19:47,115 - INFO -   [text line  3] Employer Status 1/31/2026 10/31/2025 Change % Change Pa
+2026-02-19 12:19:47,115 - INFO -   [text line  4] Registered 272,054 174,914 97,140 55.5% Fu
+2026-02-19 12:19:47,115 - INFO -   [text line  5] Uploaded Roster 236,777 160,300 76,477 47.7% Pa
+2026-02-19 12:19:47,115 - INFO -   [text line  6] Started Payroll Deductions 67,238 61,830 5,408 8.7% Mu
+2026-02-19 12:19:47,116 - INFO -   [text line  7] Facilitated Deductions in last 90 days 44,726 40,169 4,557 11.3% Se
+2026-02-19 12:19:47,116 - INFO -   [text line  8] Exempt 231,162 145,579 85,583 58.8% Eff
+2026-02-19 12:19:47,116 - INFO -   [text line  9] Status of Eligible Employers by Wave
+2026-02-19 12:19:47,116 - INFO -   [text line 10] Total Fu
+2026-02-19 12:19:47,116 - INFO -   [text line 11] Total Employers Employer
+2026-02-19 12:19:47,116 - INFO -   [text line 12] Employers Employers Estimated
+2026-02-19 12:19:47,117 - INFO -   [text line 13] Wave (Deadline) Employers Sent Response To
+2026-02-19 12:19:47,117 - INFO -   [text line 14] Registered Exempted Eligible
+2026-02-19 12:19:47,117 - INFO - Section 'employer_registration': current date = 01/31/2026
+2026-02-19 12:19:47,118 - INFO -   [employer_registration] 'Registered' -> CSAIRAD.EMPLOYERS.REGISTERED.M = 272054  (raw: '272,054')
+2026-02-19 12:19:47,118 - INFO -   [employer_registration] 'Uploaded Roster' -> CSAIRAD.EMPLOYERS.UPLOADEDROSTER.M = 236777  (raw: '236,777')
+2026-02-19 12:19:47,118 - INFO -   [employer_registration] 'Started Payroll Deductions' -> CSAIRAD.EMPLOYERS.STARTEDPAYROLLDEDUCTIONS.M = 67238  (raw: '67,238')
+2026-02-19 12:19:47,119 - INFO -   [employer_registration] 'Facilitated Deductions in last 90 days' -> CSAIRAD.EMPLOYERS.FACILITATINGDEDUCTIONS.M = 44726  (raw: '44,726')
+2026-02-19 12:19:47,120 - INFO -   [employer_registration] 'Exempt' -> CSAIRAD.EMPLOYERS.EXEMPTED.M = 231162  (raw: '231,162')
+2026-02-19 12:19:47,120 - INFO - Section 'employer_registration': 5/5 fields extracted
+2026-02-19 12:19:47,131 - INFO - Section 'participant_savings': region='right', text length=1215 chars
+2026-02-19 12:19:47,131 - INFO -   [text line  0] ment Savings Program
+2026-02-19 12:19:47,131 - INFO -   [text line  1] www.treasurer.ca.gov/calsavers/reports/2026
+2026-02-19 12:19:47,132 - INFO -   [text line  2] g Snapshot as of 1/31/2026
+2026-02-19 12:19:47,132 - INFO -   [text line  3] Participant Savings and Enrollment Changes
+2026-02-19 12:19:47,132 - INFO -   [text line  4] Participant Account Status 1/31/2026 10/31/2025 Change % Change
+2026-02-19 12:19:47,132 - INFO -   [text line  5] Funded Accounts 605,211 582,631 22,580 3.9%
+2026-02-19 12:19:47,132 - INFO -   [text line  6] Payroll Contributing Accounts 721,900 693,425 28,475 4.1%
+2026-02-19 12:19:47,133 - INFO -   [text line  7] Multiple Employer Accounts* 114,075 105,576 8,499 8.1%
+2026-02-19 12:19:47,133 - INFO -   [text line  8] Self-Enrolled Funded Accounts 3,270 3,129 141 4.5%
+2026-02-19 12:19:47,133 - INFO -   [text line  9] Effective Opt-Out Rate 35.57% 34.69% 0.88% 2.5%
+2026-02-19 12:19:47,133 - INFO -   [text line 10] Funding Amounts and Withdrawals
+2026-02-19 12:19:47,133 - INFO -   [text line 11] Funding Amounts 12/31/2025 9/30/2025 Change % Change
+2026-02-19 12:19:47,133 - INFO -   [text line 12] Total Assets $1,643,775,197 $1,532,218,572 $111,556,625 7.3%
+2026-02-19 12:19:47,134 - INFO -   [text line 13] Average Funded Account Balance $2,716 $2,630 $86 3.3%
+2026-02-19 12:19:47,134 - INFO -   [text line 14] Median Funded Account Balance $663 $674 -$11 -1.6%
+2026-02-19 12:19:47,134 - INFO - Section 'participant_savings': current date = 01/31/2026
+2026-02-19 12:19:47,134 - INFO -   [participant_savings] 'Funded Accounts' -> CSAIRAD.PARTICIPANTS.FUNDEDACCOUNTS.M = 605211  (raw: '605,211')
+2026-02-19 12:19:47,135 - INFO -   [participant_savings] 'Payroll Contributing Accounts' -> CSAIRAD.PARTICIPANTS.PAYROLLCONTRIBUTINGACCOUNTS.M = 721900  (raw: '721,900')
+2026-02-19 12:19:47,135 - INFO -   [participant_savings] 'Multiple Employer Accounts' -> CSAIRAD.PARTICIPANTS.MULTIPLEEMPLOYERACCOUNTS.M = 114075  (raw: '114,075')
+2026-02-19 12:19:47,136 - INFO -   [participant_savings] 'Self-Enrolled Funded Accounts' -> CSAIRAD.PARTICIPANTS.SELFENROLLEDFUNDEDACCOUNTS.M = 3270  (raw: '3,270')
+2026-02-19 12:19:47,137 - INFO -   [participant_savings] 'Effective Opt-Out Rate' -> CSAIRAD.PARTICIPANTS.EFFECTIVEOPTOUTRATE.M = 35.57  (raw: '35.57%')
+2026-02-19 12:19:47,137 - INFO - Section 'participant_savings': 5/5 fields extracted
+2026-02-19 12:19:47,137 - INFO - Section 'funding_amounts': region='right', text length=1215 chars
+2026-02-19 12:19:47,137 - INFO -   [text line  0] ment Savings Program
+2026-02-19 12:19:47,137 - INFO -   [text line  1] www.treasurer.ca.gov/calsavers/reports/2026
+2026-02-19 12:19:47,138 - INFO -   [text line  2] g Snapshot as of 1/31/2026
+2026-02-19 12:19:47,139 - INFO -   [text line  3] Participant Savings and Enrollment Changes
+2026-02-19 12:19:47,140 - INFO -   [text line  4] Participant Account Status 1/31/2026 10/31/2025 Change % Change
+2026-02-19 12:19:47,140 - INFO -   [text line  5] Funded Accounts 605,211 582,631 22,580 3.9%
+2026-02-19 12:19:47,141 - INFO -   [text line  6] Payroll Contributing Accounts 721,900 693,425 28,475 4.1%
+2026-02-19 12:19:47,141 - INFO -   [text line  7] Multiple Employer Accounts* 114,075 105,576 8,499 8.1%
+2026-02-19 12:19:47,141 - INFO -   [text line  8] Self-Enrolled Funded Accounts 3,270 3,129 141 4.5%
+2026-02-19 12:19:47,142 - INFO -   [text line  9] Effective Opt-Out Rate 35.57% 34.69% 0.88% 2.5%
+2026-02-19 12:19:47,142 - INFO -   [text line 10] Funding Amounts and Withdrawals
+2026-02-19 12:19:47,142 - INFO -   [text line 11] Funding Amounts 12/31/2025 9/30/2025 Change % Change
+2026-02-19 12:19:47,142 - INFO -   [text line 12] Total Assets $1,643,775,197 $1,532,218,572 $111,556,625 7.3%
+2026-02-19 12:19:47,143 - INFO -   [text line 13] Average Funded Account Balance $2,716 $2,630 $86 3.3%
+2026-02-19 12:19:47,143 - INFO -   [text line 14] Median Funded Account Balance $663 $674 -$11 -1.6%
+2026-02-19 12:19:47,143 - INFO - Section 'funding_amounts': current date = 12/31/2025
+2026-02-19 12:19:47,143 - INFO -   [funding_amounts] 'Total Assets' -> CSAIRAD.FUNDING.TOTALASSETS.M = 1643775197.0  (raw: '$1,643,775,197')
+2026-02-19 12:19:47,144 - INFO -   [funding_amounts] 'Average Funded Account Balance' -> CSAIRAD.FUNDING.AVGFUNDEDACCOUNTBAL.M = 2716.0  (raw: '$2,716')
+2026-02-19 12:19:47,144 - INFO -   [funding_amounts] 'Total Contributions Amount' -> CSAIRAD.FUNDING.TTLCONTRIBUTIONSAMOUNT.M = 1783312848.0  (raw: '$1,783,312,848')
+2026-02-19 12:19:47,144 - INFO -   [funding_amounts] 'Average Monthly Contribution Amount' -> CSAIRAD.FUNDING.AVGMONTHLYCONTRIBUTIONAMOUNT.M = 204.0  (raw: '$204')
+2026-02-19 12:19:47,145 - INFO -   [funding_amounts] 'Median Monthly Contribution Amount' -> CSAIRAD.FUNDING.MEDIANMONTHLYCONTRIBUTIONAMOUNT.M = 147.0  (raw: '$147')
+2026-02-19 12:19:47,145 - INFO -   [funding_amounts] 'Average Contribution Rate' -> CSAIRAD.FUNDING.AVERAGECONTRIBUTIONRATE.M = 5.26  (raw: '5.26%')
+2026-02-19 12:19:47,146 - INFO -   [funding_amounts] 'Amount of Withdrawals' -> CSAIRAD.FUNDING.AMOUNTWITHDRAWALS.M = 534962269.0  (raw: '$534,962,269')
+2026-02-19 12:19:47,146 - INFO -   [funding_amounts] 'Accounts with a Full Withdrawal' -> CSAIRAD.FUNDING.ACCOUNTSWITHFULLWITHDRAWAL.M = 182184  (raw: '182,184')
+2026-02-19 12:19:47,147 - INFO -   [funding_amounts] 'Accounts with a Partial Withdrawal' -> CSAIRAD.FUNDING.ACCOUNTSWITHPARTIALWITHDRAWAL.M = 35339  (raw: '35,339')
+2026-02-19 12:19:47,147 - INFO -   [funding_amounts] 'Withdrawal Rate' -> CSAIRAD.FUNDING.WITHDRAWALRATE.M = 25.24  (raw: '25.24%')
+2026-02-19 12:19:47,148 - INFO - Section 'funding_amounts': 10/10 fields extracted
+2026-02-19 12:19:47,150 - INFO - Step 2: Section 'funding_amounts' date (12/31/2025) != report month (2026-01) — prior PDF required
+2026-02-19 12:19:47,151 - INFO - Step 3: Downloading prior month PDF for comparison...
+2026-02-19 12:19:47,151 - INFO - Downloading prior month PDF: https://www.treasurer.ca.gov/calsavers/reports/2025/december_2025.pdf
+2026-02-19 12:19:50,562 - INFO - Prior month PDF saved: downloads\participation_summary_december_2025.pdf (1,187,474 bytes)
+2026-02-19 12:19:50,567 - INFO - File verified: PDF file
+2026-02-19 12:19:50,600 - INFO - PDF 'participation_summary_december_2025.pdf': page size 1008 x 612
+2026-02-19 12:19:50,863 - INFO - Section 'employer_registration': region='left', text length=1099 chars
+2026-02-19 12:19:50,863 - INFO -   [text line  0] CalSavers Retirement S
+2026-02-19 12:19:50,863 - INFO -   [text line  1] Participation & Funding Snap
+2026-02-19 12:19:50,863 - INFO -   [text line  2] Employer Registration Status Changes
+2026-02-19 12:19:50,863 - INFO -   [text line  3] Employer Status 12/31/2025 9/30/2025 Change % Change Pa
+2026-02-19 12:19:50,863 - INFO -   [text line  4] Registered 255,793 165,779 90,014 54.3% Fu
+2026-02-19 12:19:50,864 - INFO -   [text line  5] Uploaded Roster 212,443 153,199 59,244 38.7% Pa
+2026-02-19 12:19:50,864 - INFO -   [text line  6] Started Payroll Deductions 64,237 61,392 2,845 4.6% Mu
+2026-02-19 12:19:50,864 - INFO -   [text line  7] Facilitated Deductions in last 90 days 41,887 40,218 1,669 4.1% Se
+2026-02-19 12:19:50,864 - INFO -   [text line  8] Exempt 208,412 136,761 71,651 52.4% Eff
+2026-02-19 12:19:50,864 - INFO -   [text line  9] Status of Eligible Employers by Wave
+2026-02-19 12:19:50,864 - INFO -   [text line 10] Total Fu
+2026-02-19 12:19:50,865 - INFO -   [text line 11] Total Employers Employer
+2026-02-19 12:19:50,865 - INFO -   [text line 12] Employers Employers Estimated
+2026-02-19 12:19:50,865 - INFO -   [text line 13] Wave (Deadline) Employers Sent Response To
+2026-02-19 12:19:50,865 - INFO -   [text line 14] Registered Exempted Eligible
+2026-02-19 12:19:50,865 - INFO - Section 'employer_registration': current date = 12/31/2025
+2026-02-19 12:19:50,865 - INFO -   [employer_registration] 'Registered' -> CSAIRAD.EMPLOYERS.REGISTERED.M = 255793  (raw: '255,793')
+2026-02-19 12:19:50,866 - INFO -   [employer_registration] 'Uploaded Roster' -> CSAIRAD.EMPLOYERS.UPLOADEDROSTER.M = 212443  (raw: '212,443')
+2026-02-19 12:19:50,866 - INFO -   [employer_registration] 'Started Payroll Deductions' -> CSAIRAD.EMPLOYERS.STARTEDPAYROLLDEDUCTIONS.M = 64237  (raw: '64,237')
+2026-02-19 12:19:50,866 - INFO -   [employer_registration] 'Facilitated Deductions in last 90 days' -> CSAIRAD.EMPLOYERS.FACILITATINGDEDUCTIONS.M = 41887  (raw: '41,887')
+2026-02-19 12:19:50,866 - INFO -   [employer_registration] 'Exempt' -> CSAIRAD.EMPLOYERS.EXEMPTED.M = 208412  (raw: '208,412')
+2026-02-19 12:19:50,866 - INFO - Section 'employer_registration': 5/5 fields extracted
+2026-02-19 12:19:50,877 - INFO - Section 'participant_savings': region='right', text length=1203 chars
+2026-02-19 12:19:50,877 - INFO -   [text line  0] ment Savings Program
+2026-02-19 12:19:50,877 - INFO -   [text line  1] www.treasurer.ca.gov/calsavers/reports/2025
+2026-02-19 12:19:50,878 - INFO -   [text line  2] Snapshot as of 12/31/2025
+2026-02-19 12:19:50,878 - INFO -   [text line  3] Participant Savings and Enrollment Changes
+2026-02-19 12:19:50,878 - INFO -   [text line  4] Participant Account Status 12/31/2025 9/30/2025 Change % Change
+2026-02-19 12:19:50,879 - INFO -   [text line  5] Funded Accounts 599,352 579,931 19,421 3.3%
+2026-02-19 12:19:50,879 - INFO -   [text line  6] Payroll Contributing Accounts 711,760 685,631 26,129 3.8%
+2026-02-19 12:19:50,880 - INFO -   [text line  7] Multiple Employer Accounts* 111,833 104,134 7,699 7.4%
+2026-02-19 12:19:50,880 - INFO -   [text line  8] Self-Enrolled Funded Accounts 3,226 3,108 118 3.8%
+2026-02-19 12:19:50,881 - INFO -   [text line  9] Effective Opt-Out Rate 35.40% 34.70% 0.70% 2.0%
+2026-02-19 12:19:50,881 - INFO -   [text line 10] Funding Amounts and Withdrawals
+2026-02-19 12:19:50,882 - INFO -   [text line 11] Funding Amounts 12/31/2025 9/30/2025 Change % Change
+2026-02-19 12:19:50,882 - INFO -   [text line 12] Total Assets $1,587,939,563 $1,489,890,539 $98,049,024 6.6%
+2026-02-19 12:19:50,883 - INFO -   [text line 13] Average Funded Account Balance $2,649 $2,569 $80 3.1%
+2026-02-19 12:19:50,883 - INFO -   [text line 14] Median Funded Account Balance $660 $660 $0 0.0%
+2026-02-19 12:19:50,883 - INFO - Section 'participant_savings': current date = 12/31/2025
+2026-02-19 12:19:50,884 - INFO -   [participant_savings] 'Funded Accounts' -> CSAIRAD.PARTICIPANTS.FUNDEDACCOUNTS.M = 599352  (raw: '599,352')
+2026-02-19 12:19:50,884 - INFO -   [participant_savings] 'Payroll Contributing Accounts' -> CSAIRAD.PARTICIPANTS.PAYROLLCONTRIBUTINGACCOUNTS.M = 711760  (raw: '711,760')
+2026-02-19 12:19:50,884 - INFO -   [participant_savings] 'Multiple Employer Accounts' -> CSAIRAD.PARTICIPANTS.MULTIPLEEMPLOYERACCOUNTS.M = 111833  (raw: '111,833')
+2026-02-19 12:19:50,884 - INFO -   [participant_savings] 'Self-Enrolled Funded Accounts' -> CSAIRAD.PARTICIPANTS.SELFENROLLEDFUNDEDACCOUNTS.M = 3226  (raw: '3,226')
+2026-02-19 12:19:50,885 - INFO -   [participant_savings] 'Effective Opt-Out Rate' -> CSAIRAD.PARTICIPANTS.EFFECTIVEOPTOUTRATE.M = 35.4  (raw: '35.40%')
+2026-02-19 12:19:50,885 - INFO - Section 'participant_savings': 5/5 fields extracted
+2026-02-19 12:19:50,886 - INFO - Section 'funding_amounts': region='right', text length=1203 chars
+2026-02-19 12:19:50,886 - INFO -   [text line  0] ment Savings Program
+2026-02-19 12:19:50,887 - INFO -   [text line  1] www.treasurer.ca.gov/calsavers/reports/2025
+2026-02-19 12:19:50,887 - INFO -   [text line  2] Snapshot as of 12/31/2025
+2026-02-19 12:19:50,888 - INFO -   [text line  3] Participant Savings and Enrollment Changes
+2026-02-19 12:19:50,889 - INFO -   [text line  4] Participant Account Status 12/31/2025 9/30/2025 Change % Change
+2026-02-19 12:19:50,889 - INFO -   [text line  5] Funded Accounts 599,352 579,931 19,421 3.3%
+2026-02-19 12:19:50,890 - INFO -   [text line  6] Payroll Contributing Accounts 711,760 685,631 26,129 3.8%
+2026-02-19 12:19:50,890 - INFO -   [text line  7] Multiple Employer Accounts* 111,833 104,134 7,699 7.4%
+2026-02-19 12:19:50,890 - INFO -   [text line  8] Self-Enrolled Funded Accounts 3,226 3,108 118 3.8%
+2026-02-19 12:19:50,891 - INFO -   [text line  9] Effective Opt-Out Rate 35.40% 34.70% 0.70% 2.0%
+2026-02-19 12:19:50,891 - INFO -   [text line 10] Funding Amounts and Withdrawals
+2026-02-19 12:19:50,891 - INFO -   [text line 11] Funding Amounts 12/31/2025 9/30/2025 Change % Change
+2026-02-19 12:19:50,892 - INFO -   [text line 12] Total Assets $1,587,939,563 $1,489,890,539 $98,049,024 6.6%
+2026-02-19 12:19:50,892 - INFO -   [text line 13] Average Funded Account Balance $2,649 $2,569 $80 3.1%
+2026-02-19 12:19:50,892 - INFO -   [text line 14] Median Funded Account Balance $660 $660 $0 0.0%
+2026-02-19 12:19:50,892 - INFO - Section 'funding_amounts': current date = 12/31/2025
+2026-02-19 12:19:50,892 - INFO -   [funding_amounts] 'Total Assets' -> CSAIRAD.FUNDING.TOTALASSETS.M = 1587939563.0  (raw: '$1,587,939,563')
+2026-02-19 12:19:50,893 - INFO -   [funding_amounts] 'Average Funded Account Balance' -> CSAIRAD.FUNDING.AVGFUNDEDACCOUNTBAL.M = 2649.0  (raw: '$2,649')
+2026-02-19 12:19:50,893 - INFO -   [funding_amounts] 'Total Contributions Amount' -> CSAIRAD.FUNDING.TTLCONTRIBUTIONSAMOUNT.M = 1744084919.0  (raw: '$1,744,084,919')
+2026-02-19 12:19:50,893 - INFO -   [funding_amounts] 'Average Monthly Contribution Amount' -> CSAIRAD.FUNDING.AVGMONTHLYCONTRIBUTIONAMOUNT.M = 200.0  (raw: '$200')
+2026-02-19 12:19:50,893 - INFO -   [funding_amounts] 'Median Monthly Contribution Amount' -> CSAIRAD.FUNDING.MEDIANMONTHLYCONTRIBUTIONAMOUNT.M = 148.0  (raw: '$148')
+2026-02-19 12:19:50,894 - INFO -   [funding_amounts] 'Average Contribution Rate' -> CSAIRAD.FUNDING.AVERAGECONTRIBUTIONRATE.M = 5.21  (raw: '5.21%')
+2026-02-19 12:19:50,894 - INFO -   [funding_amounts] 'Amount of Withdrawals' -> CSAIRAD.FUNDING.AMOUNTWITHDRAWALS.M = 463214435.0  (raw: '$463,214,435')
+2026-02-19 12:19:50,894 - INFO -   [funding_amounts] 'Accounts with a Full Withdrawal' -> CSAIRAD.FUNDING.ACCOUNTSWITHFULLWITHDRAWAL.M = 177151  (raw: '177,151')
+2026-02-19 12:19:50,894 - INFO -   [funding_amounts] 'Accounts with a Partial Withdrawal' -> CSAIRAD.FUNDING.ACCOUNTSWITHPARTIALWITHDRAWAL.M = 34256  (raw: '34,256')
+2026-02-19 12:19:50,894 - INFO -   [funding_amounts] 'Withdrawal Rate' -> CSAIRAD.FUNDING.WITHDRAWALRATE.M = 24.89  (raw: '24.89%')
+2026-02-19 12:19:50,895 - INFO - Section 'funding_amounts': 10/10 fields extracted
+2026-02-19 12:19:50,895 - INFO - Step 4: Applying field mapping logic...
+2026-02-19 12:19:50,896 - INFO -   WRITE  'CSAIRAD.FUNDING.TOTALASSETS.M': changed 1587939563.0 -> 1643775197.0
+2026-02-19 12:19:50,896 - INFO -   WRITE  'CSAIRAD.FUNDING.AVGFUNDEDACCOUNTBAL.M': changed 2649.0 -> 2716.0
+2026-02-19 12:19:50,896 - INFO -   WRITE  'CSAIRAD.FUNDING.TTLCONTRIBUTIONSAMOUNT.M': changed 1744084919.0 -> 1783312848.0
+2026-02-19 12:19:50,897 - INFO -   WRITE  'CSAIRAD.FUNDING.AVGMONTHLYCONTRIBUTIONAMOUNT.M': changed 200.0 -> 204.0
+2026-02-19 12:19:50,897 - INFO -   WRITE  'CSAIRAD.FUNDING.MEDIANMONTHLYCONTRIBUTIONAMOUNT.M': changed 148.0 -> 147.0
+2026-02-19 12:19:50,897 - INFO -   WRITE  'CSAIRAD.FUNDING.AVERAGECONTRIBUTIONRATE.M': changed 5.21 -> 5.26
+2026-02-19 12:19:50,897 - INFO -   WRITE  'CSAIRAD.FUNDING.AMOUNTWITHDRAWALS.M': changed 463214435.0 -> 534962269.0
+2026-02-19 12:19:50,898 - INFO -   WRITE  'CSAIRAD.FUNDING.ACCOUNTSWITHFULLWITHDRAWAL.M': changed 177151 -> 182184
+2026-02-19 12:19:50,898 - INFO -   WRITE  'CSAIRAD.FUNDING.ACCOUNTSWITHPARTIALWITHDRAWAL.M': changed 34256 -> 35339
+2026-02-19 12:19:50,898 - INFO -   WRITE  'CSAIRAD.FUNDING.WITHDRAWALRATE.M': changed 24.89 -> 25.24
+2026-02-19 12:19:50,898 - INFO - Step 5: Writing row to CSV...
+2026-02-19 12:19:50,898 - ERROR - ASSERTION FAILED: File not found: Target CSV file at C:/Users/Execo Training/Desktop/CSAIRAD_M/Copy of CSAIRAD_DATA_20260210 - Data.csv
+2026-02-19 12:19:50,899 - ERROR - ============================================================
+2026-02-19 12:19:50,899 - ERROR - ASSERTION FAILED
+2026-02-19 12:19:50,899 - ERROR - Error: File not found: Target CSV file at C:/Users/Execo Training/Desktop/CSAIRAD_M/Copy of CSAIRAD_DATA_20260210 - Data.csv
+2026-02-19 12:19:50,899 - ERROR - ============================================================
+2026-02-19 12:19:50,899 - ERROR - Mapper returned an error — check mapper log for details
+2026-02-19 12:19:51,068 - INFO - Browser closed

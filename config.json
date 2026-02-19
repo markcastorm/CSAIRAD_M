@@ -1,0 +1,180 @@
+{
+  "csv_path": "C:/Users/Execo Training/Desktop/CSAIRAD_M/Copy of CSAIRAD_DATA_20260210 - Data.csv",
+  "output_dir": "output",
+  "base_url": "https://www.treasurer.ca.gov",
+  "sections": [
+    {
+      "id": "employer_registration",
+      "pdf_title": "Employer Registration Status Changes",
+      "table_header_text": "Employer Status",
+      "page_region": "left",
+      "min_rows": 5,
+      "min_cols": 4,
+      "current_col_index": 1,
+      "fields": [
+        {
+          "order": 1,
+          "pdf_row_label": "Registered",
+          "csv_column": "CSAIRAD.EMPLOYERS.REGISTERED.M",
+          "description": "Employers, Employers Registered",
+          "type": "integer"
+        },
+        {
+          "order": 2,
+          "pdf_row_label": "Uploaded Roster",
+          "csv_column": "CSAIRAD.EMPLOYERS.UPLOADEDROSTER.M",
+          "description": "Employers, Employers That Uploaded Roster",
+          "type": "integer"
+        },
+        {
+          "order": 3,
+          "pdf_row_label": "Started Payroll Deductions",
+          "csv_column": "CSAIRAD.EMPLOYERS.STARTEDPAYROLLDEDUCTIONS.M",
+          "description": "Employers, Employers That Started Payroll Deductions",
+          "type": "integer"
+        },
+        {
+          "order": 4,
+          "pdf_row_label": "Facilitated Deductions in last 90 days",
+          "csv_column": "CSAIRAD.EMPLOYERS.FACILITATINGDEDUCTIONS.M",
+          "description": "Employers, Employers Facilitating Deductions (last 90 days)",
+          "type": "integer"
+        },
+        {
+          "order": 5,
+          "pdf_row_label": "Exempt",
+          "csv_column": "CSAIRAD.EMPLOYERS.EXEMPTED.M",
+          "description": "Employers, Exempted Employers",
+          "type": "integer"
+        }
+      ]
+    },
+    {
+      "id": "participant_savings",
+      "pdf_title": "Participant Savings and Enrollment Changes",
+      "table_header_text": "Participant Account Status",
+      "page_region": "right",
+      "min_rows": 4,
+      "min_cols": 4,
+      "current_col_index": 1,
+      "fields": [
+        {
+          "order": 6,
+          "pdf_row_label": "Funded Accounts",
+          "csv_column": "CSAIRAD.PARTICIPANTS.FUNDEDACCOUNTS.M",
+          "description": "Participants, Funded Accounts",
+          "type": "integer"
+        },
+        {
+          "order": 7,
+          "pdf_row_label": "Payroll Contributing Accounts",
+          "csv_column": "CSAIRAD.PARTICIPANTS.PAYROLLCONTRIBUTINGACCOUNTS.M",
+          "description": "Participants, Payroll Contributing Accounts",
+          "type": "integer"
+        },
+        {
+          "order": 8,
+          "pdf_row_label": "Multiple Employer Accounts",
+          "csv_column": "CSAIRAD.PARTICIPANTS.MULTIPLEEMPLOYERACCOUNTS.M",
+          "description": "Participants, Multiple Employer Accounts",
+          "type": "integer"
+        },
+        {
+          "order": 9,
+          "pdf_row_label": "Self-Enrolled Funded Accounts",
+          "csv_column": "CSAIRAD.PARTICIPANTS.SELFENROLLEDFUNDEDACCOUNTS.M",
+          "description": "Participants, Self-Enrolled Funded Accounts",
+          "type": "integer"
+        },
+        {
+          "order": 10,
+          "pdf_row_label": "Effective Opt-Out Rate",
+          "csv_column": "CSAIRAD.PARTICIPANTS.EFFECTIVEOPTOUTRATE.M",
+          "description": "Participants, Effective Opt-Out Rate",
+          "type": "float"
+        }
+      ]
+    },
+    {
+      "id": "funding_amounts",
+      "pdf_title": "Funding Amounts and Withdrawals",
+      "table_header_text": "Funding Amounts",
+      "page_region": "right",
+      "min_rows": 8,
+      "min_cols": 4,
+      "current_col_index": 1,
+      "fields": [
+        {
+          "order": 11,
+          "pdf_row_label": "Total Assets",
+          "csv_column": "CSAIRAD.FUNDING.TOTALASSETS.M",
+          "description": "Funding, Total Assets",
+          "type": "currency"
+        },
+        {
+          "order": 12,
+          "pdf_row_label": "Average Funded Account Balance",
+          "csv_column": "CSAIRAD.FUNDING.AVGFUNDEDACCOUNTBAL.M",
+          "description": "Funding, Average Funded Account Balance",
+          "type": "currency"
+        },
+        {
+          "order": 13,
+          "pdf_row_label": "Total Contributions Amount",
+          "csv_column": "CSAIRAD.FUNDING.TTLCONTRIBUTIONSAMOUNT.M",
+          "description": "Funding, Total Contributions Amount (cumulative)",
+          "type": "currency"
+        },
+        {
+          "order": 14,
+          "pdf_row_label": "Average Monthly Contribution Amount",
+          "csv_column": "CSAIRAD.FUNDING.AVGMONTHLYCONTRIBUTIONAMOUNT.M",
+          "description": "Funding, Average Monthly Contribution Amount",
+          "type": "currency"
+        },
+        {
+          "order": 15,
+          "pdf_row_label": "Median Monthly Contribution Amount",
+          "csv_column": "CSAIRAD.FUNDING.MEDIANMONTHLYCONTRIBUTIONAMOUNT.M",
+          "description": "Funding, Median Monthly Contribution Amount",
+          "type": "currency"
+        },
+        {
+          "order": 16,
+          "pdf_row_label": "Average Contribution Rate",
+          "csv_column": "CSAIRAD.FUNDING.AVERAGECONTRIBUTIONRATE.M",
+          "description": "Funding, Average Contribution Rate",
+          "type": "float"
+        },
+        {
+          "order": 17,
+          "pdf_row_label": "Amount of Withdrawals",
+          "csv_column": "CSAIRAD.FUNDING.AMOUNTWITHDRAWALS.M",
+          "description": "Funding, Amount of Withdrawals (cumulative)",
+          "type": "currency"
+        },
+        {
+          "order": 18,
+          "pdf_row_label": "Accounts with a Full Withdrawal",
+          "csv_column": "CSAIRAD.FUNDING.ACCOUNTSWITHFULLWITHDRAWAL.M",
+          "description": "Funding, Accounts with a Full Withdrawal (cumulative)",
+          "type": "integer"
+        },
+        {
+          "order": 19,
+          "pdf_row_label": "Accounts with a Partial Withdrawal",
+          "csv_column": "CSAIRAD.FUNDING.ACCOUNTSWITHPARTIALWITHDRAWAL.M",
+          "description": "Funding, Accounts with a Partial Withdrawal (cumulative)",
+          "type": "integer"
+        },
+        {
+          "order": 20,
+          "pdf_row_label": "Withdrawal Rate",
+          "csv_column": "CSAIRAD.FUNDING.WITHDRAWALRATE.M",
+          "description": "Funding, Withdrawal Rate",
+          "type": "float"
+        }
+      ]
+    }
+  ]
+}
