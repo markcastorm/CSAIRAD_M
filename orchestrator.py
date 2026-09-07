@@ -2,10 +2,12 @@ import os
 import logging
 import sys
 import traceback
-import requests
 import re
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+from bs4 import BeautifulSoup
 from datetime import datetime
-from playwright.sync_api import sync_playwright
 import calsavers_mapper
 
 # ============================================================================
@@ -30,10 +32,11 @@ logging.basicConfig(
 
 BASE_URL = 'https://www.treasurer.ca.gov'
 
-# ============================================================================
-# CONFIGURATION
-# ============================================================================
-HEADLESS = True   # Set to False to watch the browser during execution
+UA = (
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+    'AppleWebKit/537.36 (KHTML, like Gecko) '
+    'Chrome/125.0.0.0 Safari/537.36'
+)
 
 # ============================================================================
 # ASSERTION FUNCTIONS
@@ -84,6 +87,40 @@ def assert_file_downloaded(filepath, min_size_bytes=1000, max_wait_seconds=30):
     raise AssertionError(f"File not downloaded after {max_wait_seconds}s: {filepath}")
 
 # ============================================================================
+# HTTP SESSION
+# ============================================================================
+
+def make_session():
+    """Create a requests session with browser-like headers and automatic retries."""
+    session = requests.Session()
+    session.headers.update({
+        'User-Agent': UA,
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1',
+    })
+    # Retry on connection errors and 5xx responses (not 4xx — those are real failures)
+    retry = Retry(
+        total=3,
+        backoff_factor=2,          # waits 2s, 4s, 8s between retries
+        status_forcelist=[500, 502, 503, 504],
+        allowed_methods=["GET"],
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount('https://', adapter)
+    session.mount('http://', adapter)
+    return session
+
+def fetch_soup(session, url, timeout=30):
+    """Fetch a URL and return a BeautifulSoup object."""
+    logging.info(f"Fetching: {url}")
+    r = session.get(url, timeout=timeout)
+    r.raise_for_status()
+    return BeautifulSoup(r.text, 'html.parser')
+
+# ============================================================================
 # HELPER: Month ordering for "latest month" detection
 # ============================================================================
 
@@ -116,80 +153,84 @@ def extract_year_month(link_text):
 # CORE FUNCTIONS
 # ============================================================================
 
-def get_latest_year_url(page):
+def find_latest_report(session):
     """
-    Use Playwright to navigate to the base reports page and find the
-    latest year link from the navigation list.
+    Discover the latest available Participation Summary Report in one pass:
+
+    1. Start from the current calendar year's page to get the full year list.
+    2. Try years from highest to lowest until one has report links posted.
+       This handles the case where a new year is listed in the nav but
+       no reports have been uploaded yet.
+    3. Return (latest_year, pdf_url, report_text).
+
+    Falls back up to 4 years back on any HTTP or parsing failure.
     """
-    start_url = f'{BASE_URL}/calsavers/reports/2022/index.asp'
-    logging.info(f"Navigating to: {start_url}")
-    page.goto(start_url)
-    page.wait_for_load_state('networkidle')
+    current_year = datetime.now().year
 
-    # Collect all year links from the <ul> nav
-    year_links = page.locator('ul li a[href*="/calsavers/reports/"]').all()
-    assert_with_log(len(year_links) > 0, "At least one year link found in nav")
+    # Step 1 — fetch any reachable year page to get the site's full year list
+    known_years = set()
+    for attempt_year in range(current_year, current_year - 4, -1):
+        url = f'{BASE_URL}/calsavers/reports/{attempt_year}/index.asp'
+        try:
+            soup = fetch_soup(session, url)
+            for a in soup.find_all('a'):
+                text = a.get_text(strip=True)
+                if re.fullmatch(r'\d{4}', text):
+                    known_years.add(int(text))
+            if not known_years:
+                known_years.add(attempt_year)
+            logging.info(f"Year list discovered from page {attempt_year}: {sorted(known_years, reverse=True)}")
+            break
+        except Exception as e:
+            logging.warning(f"Year {attempt_year} page failed: {e}")
 
-    best_year = 0
-    best_href = None
+    assert_with_log(bool(known_years), "Could not reach any CalSavers reports year page")
 
-    for link in year_links:
-        href = link.get_attribute('href')
-        text = link.inner_text().strip()
-        match = re.search(r'/calsavers/reports/(\d{4})/', href)
-        if match:
-            year = int(match.group(1))
-            if year > best_year:
-                best_year = year
-                best_href = href
+    # Step 2 — try years from highest to lowest until one has reports posted
+    for year in sorted(known_years, reverse=True):
+        url = f'{BASE_URL}/calsavers/reports/{year}/index.asp'
+        try:
+            soup = fetch_soup(session, url)
+        except Exception as e:
+            logging.warning(f"Could not fetch year {year} page: {e}")
+            continue
 
-    assert_with_log(best_href is not None, "Latest year link found")
-    logging.info(f"Latest year found: {best_year} -> {best_href}")
-    return best_year, BASE_URL + best_href
+        best = None  # (year, month_num, href, text)
+        for a in soup.find_all('a', href=True):
+            text = a.get_text(strip=True)
+            if 'Participation Summary Report' not in text:
+                continue
+            href = a['href']
+            if not href.startswith('http'):
+                href = BASE_URL + href
+            ym = extract_year_month(text)
+            if ym:
+                logging.info(f"  Found report: {text} -> {href}")
+                if best is None or ym > (best[0], best[1]):
+                    best = (ym[0], ym[1], href, text)
+            else:
+                logging.warning(f"  Could not parse date from: {text}")
+
+        if best:
+            _, _, href, text = best
+            logging.info(f"Latest report year  : {year}")
+            logging.info(f"Latest report selected: {text}")
+            logging.info(f"URL: {href}")
+            return year, href, text
+
+        logging.warning(f"Year {year} page has no reports yet — trying prior year")
+
+    raise AssertionError(
+        "No Participation Summary Report links found on any year page. "
+        "The site structure may have changed."
+    )
 
 
-def get_latest_participation_report_url(page, year_index_url):
+def download_pdf(session, pdf_url, report_text):
     """
-    Navigate to the latest year's index page via Playwright,
-    then find all 'Participation Summary Report' links and pick the latest month.
+    Download the PDF using the shared session.
+    Saves to downloads/ with a filename derived from the report link text.
     """
-    logging.info(f"Navigating to year index: {year_index_url}")
-    page.goto(year_index_url)
-    page.wait_for_load_state('networkidle')
-
-    # Find all links whose text contains 'Participation Summary Report'
-    report_links = page.locator('a:has-text("Participation Summary Report")').all()
-    assert_with_log(len(report_links) > 0, "At least one Participation Summary Report link found")
-    logging.info(f"Found {len(report_links)} Participation Summary Report link(s)")
-
-    best = None  # (year, month_num, href, text)
-
-    for link in report_links:
-        href = link.get_attribute('href')
-        text = link.inner_text().strip()
-        ym = extract_year_month(text)
-        if ym:
-            year, month_num = ym
-            if best is None or (year, month_num) > (best[0], best[1]):
-                best = (year, month_num, href, text)
-            logging.info(f"  Found report: {text} -> {href}")
-        else:
-            logging.warning(f"  Could not parse date from: {text}")
-
-    assert_with_log(best is not None, "At least one parseable Participation Summary Report found")
-    _, _, href, text = best
-    full_url = BASE_URL + href if href.startswith('/') else href
-    logging.info(f"Latest report selected: {text}")
-    logging.info(f"URL: {full_url}")
-    return full_url, text
-
-
-def download_pdf_with_requests(pdf_url, report_text):
-    """
-    Download the PDF using requests (not Playwright).
-    Saves to downloads/ with a descriptive filename derived from the link text.
-    """
-    # Build filename from report text, e.g. "january_2026.pdf"
     match = re.search(r'(\w+)\s+\d{1,2},\s+(\d{4})', report_text, re.IGNORECASE)
     if match:
         month = match.group(1).lower()
@@ -199,25 +240,17 @@ def download_pdf_with_requests(pdf_url, report_text):
         filename = f"participation_summary_{timestamp}.pdf"
 
     filepath = os.path.join('downloads', filename)
-    logging.info(f"Downloading PDF via requests: {pdf_url}")
+    logging.info(f"Downloading PDF: {pdf_url}")
     logging.info(f"Saving to: {filepath}")
 
-    headers = {
-        'User-Agent': (
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-            'AppleWebKit/537.36 (KHTML, like Gecko) '
-            'Chrome/120.0.0.0 Safari/537.36'
-        )
-    }
-
-    response = requests.get(pdf_url, headers=headers, timeout=60, stream=True)
+    r = session.get(pdf_url, timeout=60, stream=True)
     assert_with_log(
-        response.status_code == 200,
-        f"HTTP 200 received for PDF download (got {response.status_code})"
+        r.status_code == 200,
+        f"HTTP 200 received for PDF download (got {r.status_code})"
     )
 
     with open(filepath, 'wb') as f:
-        for chunk in response.iter_content(chunk_size=8192):
+        for chunk in r.iter_content(chunk_size=8192):
             if chunk:
                 f.write(chunk)
 
@@ -236,70 +269,51 @@ def main():
     logging.info(f"STARTING SCRIPT - {timestamp}")
     logging.info("=" * 60)
 
-    with sync_playwright() as pw:
-        browser = pw.chromium.launch(channel='chrome', headless=HEADLESS)
-        page = browser.new_page()
+    session = make_session()
 
-        try:
-            # Step 1: Find the latest year
-            latest_year, year_index_url = get_latest_year_url(page)
+    try:
+        # Steps 1 & 2: Find the latest year that has reports, get its latest report link
+        latest_year, pdf_url, report_text = find_latest_report(session)
 
-            # Step 2: On that year's page, find the latest monthly report link
-            pdf_url, report_text = get_latest_participation_report_url(page, year_index_url)
+        # Step 3: Download the PDF
+        saved_path = download_pdf(session, pdf_url, report_text)
 
-            # Step 3: Download with requests
-            saved_path = download_pdf_with_requests(pdf_url, report_text)
+        logging.info("=" * 60)
+        logging.info("SCRAPER COMPLETED — starting mapper...")
+        logging.info(f"Report : {report_text}")
+        logging.info(f"PDF    : {saved_path}")
+        logging.info("=" * 60)
 
-            logging.info("=" * 60)
-            logging.info("SCRAPER COMPLETED — starting mapper...")
-            logging.info(f"Report : {report_text}")
-            logging.info(f"PDF    : {saved_path}")
-            logging.info("=" * 60)
+        # Step 4: Run mapper (report_month auto-detected from filename)
+        mapper_exit = calsavers_mapper.main(
+            current_pdf_path=saved_path,
+            report_month=None   # auto-detected from PDF filename
+        )
 
-            # Step 4: Run mapper (report_month auto-detected from filename)
-            mapper_exit = calsavers_mapper.main(
-                current_pdf_path=saved_path,
-                report_month=None   # auto-detected from PDF filename
-            )
+        if mapper_exit == 0:
+            logging.info("Pipeline completed: scrape -> download -> map -> output")
+        elif mapper_exit == 2:
+            logging.warning("Pipeline completed with SKIP: all fields identical to prior month")
+        else:
+            logging.error("Mapper returned an error — check mapper log for details")
 
-            if mapper_exit == 0:
-                logging.info("Pipeline completed: scrape -> download -> map -> output")
-            elif mapper_exit == 2:
-                logging.warning("Pipeline completed with SKIP: all fields identical to prior month")
-            else:
-                logging.error("Mapper returned an error — check mapper log for details")
+        return mapper_exit
 
-            return mapper_exit
+    except AssertionError as e:
+        logging.error("=" * 60)
+        logging.error("ASSERTION FAILED")
+        logging.error(f"Error: {str(e)}")
+        logging.error("=" * 60)
+        return 1
 
-        except AssertionError as e:
-            logging.error("=" * 60)
-            logging.error("ASSERTION FAILED")
-            logging.error(f"Error: {str(e)}")
-            logging.error("=" * 60)
-            try:
-                page.screenshot(path=f'logs/error_{timestamp}_assertion.png')
-                logging.error(f"Screenshot saved: logs/error_{timestamp}_assertion.png")
-            except Exception:
-                pass
-            return 1
-
-        except Exception as e:
-            logging.error("=" * 60)
-            logging.error("UNEXPECTED ERROR OCCURRED")
-            logging.error(f"Error Type: {type(e).__name__}")
-            logging.error(f"Error Message: {str(e)}")
-            logging.error("=" * 60)
-            logging.error(traceback.format_exc())
-            try:
-                page.screenshot(path=f'logs/error_{timestamp}_unexpected.png')
-                logging.error(f"Screenshot saved: logs/error_{timestamp}_unexpected.png")
-            except Exception:
-                pass
-            return 1
-
-        finally:
-            browser.close()
-            logging.info("Browser closed")
+    except Exception as e:
+        logging.error("=" * 60)
+        logging.error("UNEXPECTED ERROR OCCURRED")
+        logging.error(f"Error Type: {type(e).__name__}")
+        logging.error(f"Error Message: {str(e)}")
+        logging.error("=" * 60)
+        logging.error(traceback.format_exc())
+        return 1
 
 
 if __name__ == "__main__":

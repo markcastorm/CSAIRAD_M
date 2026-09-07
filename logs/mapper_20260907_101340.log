@@ -1,0 +1,11 @@
+2026-09-07 10:13:40,180 - INFO - ============================================================
+2026-09-07 10:13:40,180 - INFO - STARTING SCRIPT - 20260907_101340
+2026-09-07 10:13:40,180 - INFO - ============================================================
+2026-09-07 10:13:44,542 - INFO - Navigating to: https://www.treasurer.ca.gov/calsavers/reports/2022/index.asp
+2026-09-07 10:13:46,265 - ERROR - ASSERTION FAILED: At least one year link found in nav
+2026-09-07 10:13:46,266 - ERROR - ============================================================
+2026-09-07 10:13:46,266 - ERROR - ASSERTION FAILED
+2026-09-07 10:13:46,267 - ERROR - Error: At least one year link found in nav
+2026-09-07 10:13:46,271 - ERROR - ============================================================
+2026-09-07 10:13:46,477 - ERROR - Screenshot saved: logs/error_20260907_101340_assertion.png
+2026-09-07 10:13:47,682 - INFO - Browser closed

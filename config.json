@@ -1,5 +1,5 @@
 {
-  "csv_path": "C:/Users/Execo Training/Desktop/CSAIRAD_M/Copy of CSAIRAD_DATA_20260210 - Data.csv",
+  "csv_path": "output/CSAIRAD_DATA.csv",
   "output_dir": "output",
   "base_url": "https://www.treasurer.ca.gov",
   "sections": [

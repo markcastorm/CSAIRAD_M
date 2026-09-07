@@ -5,6 +5,7 @@ import sys
 import re
 import traceback
 import requests
+from bs4 import BeautifulSoup
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import pdfplumber
@@ -331,47 +332,91 @@ def detect_report_month(pdf_path):
 # PRIOR MONTH PDF DOWNLOAD
 # ============================================================================
 
+_MONTH_ORDER = {
+    'january': 1, 'february': 2, 'march': 3, 'april': 4,
+    'may': 5, 'june': 6, 'july': 7, 'august': 8,
+    'september': 9, 'october': 10, 'november': 11, 'december': 12
+}
+
+def _extract_year_month(link_text):
+    """Extract (year, month_num) from report link text. Returns None if not matched."""
+    m = re.search(r'(\w+)\s+\d{1,2},\s+(\d{4})', link_text, re.IGNORECASE)
+    if m:
+        month_num = _MONTH_ORDER.get(m.group(1).lower())
+        if month_num:
+            return (int(m.group(2)), month_num)
+    return None
+
+
 def get_prior_month_pdf(report_month_str, base_url):
     """
-    Conditionally download the prior month PDF.
+    Download the prior month's participation report PDF by:
+    1. Fetching the appropriate year's index page
+    2. Finding the exact report link for the prior month (no URL guessing)
+    3. Downloading from the discovered URL
+
     report_month_str : 'YYYY-MM'
-    Returns local file path, or None if download fails.
+    Returns local file path, or None if not found / download fails.
     """
     report_dt  = datetime.strptime(report_month_str, '%Y-%m')
     prior_dt   = report_dt - relativedelta(months=1)
     month_name = MONTH_NAMES[prior_dt.month]
-    prior_url  = (
-        f"{base_url}/calsavers/reports/{prior_dt.year}"
-        f"/{month_name}_{prior_dt.year}.pdf"
-    )
     prior_path = os.path.join(
         'downloads',
         f"participation_summary_{month_name}_{prior_dt.year}.pdf"
     )
 
-    # Re-use if already downloaded
     if os.path.exists(prior_path):
         logging.info(f"Prior month PDF already cached: {prior_path}")
         return prior_path
 
-    logging.info(f"Downloading prior month PDF: {prior_url}")
     headers = {
         'User-Agent': (
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
             'AppleWebKit/537.36 (KHTML, like Gecko) '
-            'Chrome/120.0.0.0 Safari/537.36'
-        )
+            'Chrome/125.0.0.0 Safari/537.36'
+        ),
+        'Accept-Language': 'en-US,en;q=0.9',
     }
+
+    target = (prior_dt.year, prior_dt.month)
+    year_url = f"{base_url}/calsavers/reports/{prior_dt.year}/index.asp"
+    logging.info(f"Scraping prior month link from: {year_url}")
+
     try:
-        response = requests.get(prior_url, headers=headers, timeout=60, stream=True)
-        if response.status_code != 200:
+        r = requests.get(year_url, headers=headers, timeout=30)
+        if r.status_code != 200:
+            logging.warning(f"Year page returned HTTP {r.status_code}: {year_url}")
+            return None
+
+        soup = BeautifulSoup(r.text, 'html.parser')
+
+        pdf_url = None
+        for a in soup.find_all('a', href=True):
+            text = a.get_text(strip=True)
+            if 'Participation Summary Report' not in text:
+                continue
+            ym = _extract_year_month(text)
+            if ym == target:
+                href = a['href']
+                pdf_url = href if href.startswith('http') else base_url + href
+                logging.info(f"Prior month link found: {text} -> {pdf_url}")
+                break
+
+        if pdf_url is None:
             logging.warning(
-                f"Prior month PDF not available (HTTP {response.status_code}): {prior_url}"
+                f"Prior month report ({prior_dt.year}-{prior_dt.month:02d}) "
+                f"not listed on {year_url}"
             )
             return None
 
+        r2 = requests.get(pdf_url, headers=headers, timeout=60, stream=True)
+        if r2.status_code != 200:
+            logging.warning(f"Prior PDF download failed (HTTP {r2.status_code}): {pdf_url}")
+            return None
+
         with open(prior_path, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
+            for chunk in r2.iter_content(chunk_size=8192):
                 if chunk:
                     f.write(chunk)
 
